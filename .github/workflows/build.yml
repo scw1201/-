@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 10
       - name: Set up system dependences on linux
@@ -56,7 +56,7 @@ jobs:
       - name: Test the compiled file
         run: |
           ls -al *.pdf
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.latex-entry }}.pdf
           path: ${{ matrix.latex-entry }}.pdf
