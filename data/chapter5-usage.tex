@@ -1,97 +1,55 @@
 % !Mode:: "TeX:UTF-8"
-\chapter{使用说明}
-\section{基本范例}
-\begin{table}
-\begin{center}
-    \begin{tabular}{c||c}
-    \hline
-    本科生论文基本结构 & 研究生论文基本结构\\\hline\hline
-    封面 & 封面（中、英文）\\
-    扉页 & 题名页、独创性声明和使用授权书\\
-    中英文摘要 & 中英文摘要\\
-    目录 & 目录\\
-    正文 & 图表清单及主要符号表（根据情况可省略）\\
-    致谢 & 主体部分\\
-    参考文献 & 参考文献\\
-    附录 & 附录\\
-    ~~ & 攻读硕士/博士期间取得的研究\slash 学术成果\\
-    ~~ & 致谢\\
-    ~~ & 作者简介(仅博士生)\\
-    \hline
-    \end{tabular}
-\end{center}
-\end{table}
+\chapter{对话式数字人博物馆导览系统实现}
 
-本科生论文结构推荐按如下的代码形式来组织整个论文。
-\lstinputlisting[
-    language={[LaTeX]TeX},
-    caption={本科生论文结构},
-    label={code-bachelor-structure},
-]{sample-bachelor.tex}
+\section{系统整体架构与实现思路}
+本研究的工程实现依托 MuseGuide 原型系统展开。系统采用前后端分离架构，后端以 FastAPI 作为服务入口，前端基于 Vite 与 TypeScript 构建交互界面，语音链路通过 WebSocket 实现流式传输。与传统单体导览应用不同，MuseGuide 将对话生成、语音识别、语音合成和状态驱动表达拆分为可协同模块，便于在实验阶段逐步验证各功能对学习体验的影响。
 
-研究生则推荐使用如下的代码形式来组织论文。
-\lstinputlisting[
-    language={[LaTeX]TeX},
-    caption={研究生论文结构},
-    label={code-master-structure},
-]{sample-master.tex}
+在实现策略上，系统遵循“主链路先通、策略后置增强”的原则。第一步打通“用户输入--语义理解--导览输出”闭环，确保导览可用；第二步引入 CCEG 相关状态字段和策略约束，确保导览连续；第三步引入语义触发的多模态行为，确保导览可感知。该路径与论文研究流程保持一致，使理论框架可以被直接映射到工程结构。
 
-对于本科生或研究生的开题报告或文献综述，则推荐使用如下的代码形式组织。
-\lstinputlisting[
-	language={[LaTeX]TeX},
-	caption={开题报告/文献综述论文结构},
-	label={code-kaitireport-structure},
-]{sample-kaitireport.tex}
+\section{实时对话实现}
+实时对话链路由语音识别、会话编排和语音合成三部分构成。在输入端，前端录音模块采集 PCM 音频并通过 WebSocket 发送至 ASR 服务，后端入口位于 \texttt{museguide/asr/ws\_server.py}，底层调用 \texttt{museguide/asr/v3\_bigmodel\_client.py} 完成流式识别。识别文本进入会话编排器 \texttt{museguide/llm/orchestrator.py}，由其联合 \texttt{museguide/llm/prompts.py}、\texttt{museguide/configs/personas.yaml} 和 \texttt{museguide/configs/domain\_prior.json} 生成结构化导览输出。
 
-\section{模板选项}
-\subsection{学位选项}
-    \begin{itemize}
-        \item bachelor---学士学位；
-        \item master---硕士学位；
-        \item doctor---博士学位；
-        \item professional---添加该选项为专业硕士\slash 博士学位，否则为学术硕士\slash 博士学位。
-        \item kaitireport---添加该选项为开题报告\slash 文献综述，否则为毕业论文。
-    \end{itemize}
+为了让系统行为可控，MuseGuide 采用结构化字段驱动方式输出结果，而非仅输出自由文本。核心字段包括 \texttt{guide\_state}、\texttt{guide\_stage}、\texttt{guide\_zone}、\texttt{focus\_exhibit} 和 \texttt{tts\_text}。其中 \texttt{tts\_text} 负责可听讲解内容，其他字段负责前端状态与导览阶段控制。此种结构化输出对应 CCEG 框架中的 Conversation 与 Context 协同机制，保证系统不仅“会回答”，还“会组织导览过程”。
 
-\subsection{其他选项}
-    \begin{itemize}
-        \item oneside\slash twoside---单面\slash 双面打印；
-        \item openany\slash openright---新的章节在任何页面开始\slash 新的章节从奇数页开始；
-        \item classfied---保密论文；
-        \item color---将论文中的链接文字用颜色标识。
-    \end{itemize}
+在输出端，\texttt{tts\_text} 被送入 \texttt{museguide/tts/worker\_v3.py} 进行流式语音合成，前端 \texttt{frontend/src/audio/AudioEngine.ts} 负责队列播放与结束回调。该链路支持边生成边播放，显著降低长文本回答带来的等待感，使对话体验更接近真实导览交流。
 
-\section{封面及正文前的一些设置}
-\subsection{封面}
-本科生论文封面直接使用\texttt{\textbackslash maketitle}命令，将编译生成论文封面和任务书（任务书中的各项需要自己在assign.tex中填写），以及“本人声明”页。只需将\texttt{data/bachelor/bachelor\_info.tex}中的信息填写完整即可自行编译生成。
+\section{导览情境状态呈现}
+情境状态呈现是系统区别于普通聊天应用的关键实现。MuseGuide 在后端维护导览上下文，并将状态信息同步至前端侧边面板，使用户可以实时感知当前导览位置、关注展品与导览阶段。该设计不仅用于视觉展示，更用于交互认知提示，帮助用户在多轮会话中保持主题连续。
 
-研究生（包括博士研究生）的毕设论文封面使用\texttt{\textbackslash maketitle}将生成中英文封面、题名页、和独创性声明与使用授权书。只需将\texttt{data/master/master\_info.tex}中的信息填写完整即可自行编译生成。
+系统中的情境先验来自 \texttt{museguide/configs/domain\_prior.json}，其中定义了展区、展品与空间关系。会话编排器在每次响应时将用户输入映射到情境先验，并结合历史会话状态更新 \texttt{guide\_zone} 与 \texttt{focus\_exhibit}。由此，系统可实现“问题与空间对象联动”，在回答内容与导览路线之间建立稳定对应关系。对于博物馆学习场景而言，这种“语义--空间”双重锚定能够有效降低抽象解释带来的理解压力。
 
-\subsection{中英文摘要}
-本科生和研究生的论文中英文摘要为\texttt{abstract.tex}，请直接按照模板示例进行更改替换即可，关键词以及其他的一些个人论文信息在\texttt{data/bachelor/bachelor\_info.tex}或\texttt{data/master/master\_info.tex}中自行定义。
+\section{多模态交互感知实现}
+多模态实现由状态机驱动。\texttt{museguide/configs/guide\_states.yaml} 将导览状态与前端视频状态绑定，\texttt{frontend/src/video/VideoEngine.ts} 根据 \texttt{guide\_state} 切换角色表现。与逐帧驱动方案相比，当前原型采用离线素材与状态切换方式，重点验证“表达策略是否有效”，而非追求完全写实口型。该取舍符合原型研究阶段目标，也与项目 README 中“强调体验验证、不追求工程完备”的定位一致。
 
-\subsection{目录}
-生成目录为命令\texttt{\textbackslash tableofcontents}，需要xelatex两遍才能正确生成目录。
+在行为控制层，系统通过提示词约束将角色设定、语气风格和导览意图写入输出结构，避免模型自由发挥导致的人设漂移。具体而言，人设信息来自 \texttt{personas.yaml}，导览任务边界来自 \texttt{domain\_prior.json}，表达阶段约束来自 \texttt{guide\_states.yaml}。三者共同作用，使数字人的语言与行为保持相对一致，支撑 CCEG 框架中的 Embodied Guidance 维度。
 
-对于研究生，论文还需要有图表目录以及论文主要符号表。分别使用命令\texttt{\textbackslash listoffig\hyp{}ures}和\texttt{\textbackslash listoftables}，而主要符号表则在\texttt{data/master/denotation.tex}中，请自行按照模板给出的样式替换即可。
+\section{系统运行流程与实现小结}
+综合来看，MuseGuide 的运行流程可以概括为：用户语音输入经 ASR 转写后进入会话编排器，系统基于情境状态生成结构化导览结果，再由 TTS 和前端状态机完成可听可视输出。该流程在工程上对应了 CCEG 的三维协同关系：Conversation 负责导览内容组织，Context 负责状态维护与决策，Embodied Guidance 负责多模态呈现。
 
-\section{正文}
-\subsection{章节}
-正文中的各个章节，推荐将其每一章分为单独的\texttt{.tex}文件，然后使用\texttt{\textbackslash include\{chap\hyp{}ter.tex\}}将其包含进来即可。
+图\ref{fig-system-impl}展示了开题阶段对系统原型的界面化呈现。该原型已能够完成连续问答、情境更新与状态驱动表达三项核心功能，为第六章用户验证提供了可操作实验对象。
 
-章节中的内容如何编写，请见\hyperref[chapter-basic]{第\ref{chapter-basic}章~~\LaTeX{}基础知识}。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figure/museguide/prototype-ui.png}
+    \caption{MuseGuide 导览系统原型界面（来源：MuseGuide 项目）}
+    \label{fig-system-impl}
+\end{figure}
 
-\subsection{参考文献}
-参考文献使用\texttt{BiBTeX}工具，参考文献的数据库为\texttt{bibs.bib}，可以使用记事本等文本编辑器进行编辑。具体如何进行编辑也可参照示例模板给出的范例来编写。在Winedt软件中有具体的增加参考文献的选项；在\url{book.google.com}中搜索到的书籍，在页面的最下方也有\texttt{BiBTeX}的导出选项。
+\section{关键模块实现细节补充}
+会话编排器是系统核心。其工作方式并非直接调用模型返回文本，而是先构建包含人设、情境和输出格式约束的提示结构，再解析模型输出并进行字段校验。若输出缺少关键字段或语义不完整，系统会触发修复策略，避免异常结果直接传递到前端。该机制提高了系统稳定性，也增强了研究过程的可解释性。
 
-\texttt{.bib}参考文献数据库文件中，每个类别后的第一个为标号，在示例的\texttt{bibs.bib}中第一个书箱的标号为\textbf{kottwitz2011latex}，在引用此文献时，使用\verb|\upcite{kottwitz2011latex}|即可得到此文献\upcite{kottwitz2011latex}的引用\footnote{左侧“文献”的右上方即得到了此文献的引用。}。
-使用\verb|\cite{kottwitz2011latex}|即可得到文献\cite{kottwitz2011latex}的引用\footnote{“文献”的后面得到了此文献的引用，不是上标形式。}。
+情境存储模块将每轮交互摘要写入上下文缓存，并对展区、展品和问题意图进行联合更新。更新策略遵循“新信息覆盖旧状态、关键状态优先保留”的原则，确保会话既能持续演进，又不会因历史噪声导致策略偏移。这一机制在多轮导览任务中效果明显，能够减少重复解释并提升路径连贯性。
 
-\section{正文之后的内容}
-\subsection{附录}
-附录和正文中的章节编写方式一样。无特殊之处。
-\subsection{攻读硕士\slash 博士期间所取得的研究\slash 学术成果（研究生）}
-\subsection{致谢}
-\subsection{作者简介（博士研究生）}
-博士学位论文应该提供作者简介，主要包括：姓名、性别、出生年月日、民族、出生地；
-简要学历、工作经历（职务）；以及攻读学位期间获得的其它奖励（除攻读学位期间取得的研究成果之外）。
+前端控制层根据后端结构化字段执行界面与角色状态更新。\texttt{guide\_state} 控制角色表现切换，\texttt{guide\_stage} 控制导览阶段提示，\texttt{focus\_exhibit} 控制信息面板焦点。由于这些状态来自统一结构化输出，前端无需对自然语言做二次猜测，从而降低了交互不确定性。该实现方式对原型系统尤为重要，因为它保证了实验过程中的可复现性。
+
+\section{系统局限与工程反思}
+在实现过程中，系统也暴露出一些工程局限。首先，语音识别在嘈杂环境中仍会出现术语误识别，对后续会话质量造成影响。其次，状态驱动的视频切换虽然稳定，但在细粒度口型同步方面仍与高保真数字人存在差距。再次，当前知识库规模有限，面对极专业提问时解释深度不足。上述问题并不否定框架有效性，但提示后续工程化阶段需要在数据治理、实时驱动和模型鲁棒性方面持续投入。
+
+在数字人驱动方向，开题材料中的 OmniAvatar 结构图（图\ref{fig-omniavatar}）展示了音频驱动视频生成链路，即通过音频特征编码、参考图像条件和跨注意力模块完成角色口型与动作生成。本文当前原型尚未将该链路端到端并入在线导览主流程，而是采用“状态机+离线素材”方案优先验证导览机制。后续若将 OmniAvatar 等音频驱动模型接入，可进一步提升具身表达细粒度与沉浸感，但同时也需要解决延迟控制、资源开销与稳定性问题。
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figure/museguide/system-architecture.png}
+    \caption{OmniAvatar 音频驱动数字人生成流程示意图（OmniAvatar，2025）}
+    \label{fig-omniavatar}
+\end{figure}

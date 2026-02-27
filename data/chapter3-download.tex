@@ -1,86 +1,74 @@
 % !Mode:: "TeX:UTF-8"
-\chapter{下载}
+\chapter{CCEG 设计框架分析}
 
-\section{发行版本}
+\section{CCEG 模型的提出背景与内涵}
+现有博物馆数字导览系统普遍存在一个矛盾：系统能够提供信息，却难以持续引导学习。其根本原因在于，传统设计往往把内容生成、交互管理和表现输出视为相互独立模块，缺少以学习目标为中心的统一协同机制。为回应这一问题，本文提出 CCEG（Conversation--Context--Embodied Guidance）导览框架，强调对话组织、情境理解与具身表达在同一导览任务中的结构化整合。
 
-发行版本是本模板编写者会不定期更新打包的版本，适合大部分用户使用，
-优点是相对较为稳定，下载和使用都更方便便捷，
-缺点是可能不包含一些最新的更新，不过应该足够满足常规毕业设计论文撰写需求。
-由于本模板仍在开发之中，我们将适时更新本说明文档及相关项目介绍和使用方法，
-敬请关注后续进展。
+CCEG 的核心思想是将“导览”从信息播报行为转换为学习建构过程。在该框架中，Conversation 维度负责组织问题与回答的逻辑链条，使系统不仅能答对问题，还能推动问题深化；Context 维度负责维护导览情境状态，使系统在多轮会话中保持连续性与方向性；Embodied Guidance 维度负责将语义目标映射到可感知的语音和行为表达，使导览过程具有可理解的节奏和重点。
 
-\section{开发版本}
+这一框架并非对既有技术的简单拼接，而是试图建立跨层次的设计约束。也就是说，模型生成的文本必须接受情境状态约束，行为表达必须接受语义结构约束，最终共同服务于学习目标。图\ref{fig-cceg-framework}展示了开题阶段形成的 CCEG 框架关系图。
 
-开发版本是通过Git直接clone本模板托管在Github版本库中的最新代码，
-适合有版本管理工具使用经验和对LaTeX使用较为熟练的用户。
-优点是包含最新的模板代码，
-缺点是稳定性无法保证，可能有一些小问题，
-当然我们很欢迎您通过所有可能的方式将问题反馈给我们。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figure/museguide/cceg-framework-clean.png}
+    \caption{CCEG 导览设计框架（来源：MuseGuide 开题材料）}
+    \label{fig-cceg-framework}
+\end{figure}
 
-\subsection{下载方法}
-首先你需要打开准备存放毕业设计论文的目录，
-通过命令\ref{code-git-clone}即可获取最新的模板代码，
-需要注意的是这将在当前目录下新建一个名为BUAAthesis的文件夹。
-\begin{lstlisting}[
-    language={bash},
-    caption={git clone},
-    label={code-git-clone},
-]
-git clone git://github.com/BHOSC/BUAAthesis.git
-\end{lstlisting}
+\section{基于 CCEG 的设计要素分析}
 
-\subsection{更新方法}
-通过命令\ref{code-git-pull}即可实现模板代码的更新，
-需要注意的是此处可能会出现冲突，相关处理方法将在后续说明。
-\begin{lstlisting}[
-    language={bash},
-    caption={git pull},
-    label={code-git-pull},
-]
-git pull origin master
-\end{lstlisting}
+\subsection{对话组织要素}
+对话组织是 CCEG 的起点。导览会话中的每一轮问答都不应被视为独立片段，而应被纳入可追踪的学习链路。本文在设计中将展品知识按“概览解释、深度解释、关联拓展”三种层级组织，并通过问题类型识别实现层级间动态切换。这种组织方式能够避免系统在首轮回答中堆积过量信息，同时为后续追问保留充分空间。
 
-\section{目录结构}
+对话组织还承担“学习节奏管理”作用。当用户连续追问同一主题时，系统提高解释深度；当用户频繁切题时，系统优先执行主题回收与阶段总结，防止会话无序扩散。由此，对话不再是被动响应机制，而成为导览学习路径的主动控制机制。
 
-本模板项目完整的文件目录结构如下所示：
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figure/museguide/conversation-dimension.png}
+    \caption{Conversation 维度：连续导览对话组织（来源：MuseGuide 开题材料）}
+    \label{fig-conv-dim}
+\end{figure}
 
-{
-    \dirtree{%
-        .1 BUAAthesis/\DTcomment{根目录}.
-        .2 buaathesis.cls\DTcomment{模板文件}.
-        .2 buaathesis.bst\DTcomment{参考文献样式}.
-        .2 sample-bachelor.tex\DTcomment{本科生示例文件}.
-        .2 sample-master.tex\DTcomment{研究生示例文件}.
-        .2 data/\DTcomment{数据文件夹}.
-        .3 abstract.tex\DTcomment{中英文摘要}.
-        .3 appendix1-faq.tex\DTcomment{附录1，常见问题}.
-        .3 appendix2-contactus.tex\DTcomment{附录2，联系我们}.
-        .3 bibs.bib\DTcomment{参考文献文件}.
-        .3 chapter1-intro.tex.
-        .3 chapter2-config.tex.
-        .3 chapter3-download.tex.
-        .3 chapter4-baisc.tex.
-        .3 chapter5-usage.tex.
-        .3 chapter6-implement.tex.
-        .3 com\_info.tex\DTcomment{通用自定义信息}.
-        .3 reference.tex\DTcomment{参考文献}.
-        .3 bachelor/\DTcomment{本科生专属文件}.
-        .4 assign.tex\DTcomment{任务书}.
-        .4 bachelor\_info.tex\DTcomment{本科生专属信息}.
-        .4 acknowledgement.tex\DTcomment{致谢页}.
-        .3 master/\DTcomment{研究生专属文件}.
-        .4 back1-achievement.tex\DTcomment{附页1，取得成绩}.
-        .4 back2-acknowledgement.tex\DTcomment{附页2，致谢}.
-        .4 back3-aboutauthor.tex\DTcomment{附页3，关于作者}.
-        .4 denotation.tex\DTcomment{主要符号对照表}.
-        .4 master\_info.tex\DTcomment{研究生专属信息}.
-        .2 figure/\DTcomment{图片存放路径}.
-        .3 buaamark.eps\DTcomment{北航Logo，用于页眉}.
-        .3 buaaname.eps\DTcomment{北航校名，用于首页}.
-        .3 fgbt.jpg\DTcomment{北航未来花园Logo，用于测试}.
-        .2 Makefile\DTcomment{Linux下辅助脚本}.
-        .2 msmake.bat\DTcomment{Windows下辅助脚本}.
-        .2 README.md\DTcomment{Github项目说明}.
-        .2 .gitignore\DTcomment{Git版本管理配置文件}.
-    }
-}
+\subsection{导览情境要素}
+情境要素决定系统能否“接住”用户在具体参观过程中的真实需求。本文将情境定义为用户状态、展品状态与会话状态的动态组合。用户状态体现兴趣方向与知识水平，展品状态体现当前空间位置和对象属性，会话状态体现历史问答与待解释内容。三者共同构成导览决策的上下文基础。
+
+在 CCEG 框架中，情境理解并不只是上下文缓存，而是持续更新的策略输入。系统通过情境状态判断当前回答应采用概览模式、深入模式还是引导模式，从而在多轮交互中维持稳定的学习主线。这一机制直接对应博物馆学习中的“情境支架”需求，能够显著降低重复解释和答非所问的问题。
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figure/museguide/context-dimension.png}
+    \caption{Context 维度：导览情境状态的连续更新（来源：MuseGuide 开题材料）}
+    \label{fig-context-dim}
+\end{figure}
+
+\subsection{具身引导要素}
+具身引导要素关注“如何被感知”。在传统数字讲解中，语音输出常被视为唯一通道，而 CCEG 强调导览表达应由语音、节奏、动作和表情共同完成。本文将具身表达划分为强调、指向和过渡三类功能：强调功能用于突出核心术语，指向功能用于连接空间对象，过渡功能用于标识话题切换。
+
+具身引导的关键不是动作数量，而是语义一致性。当语言重点、语音重音与动作指向同步出现时，用户更容易形成稳定记忆线索；当表达与语义错位时，即使视觉表现丰富，也会削弱学习效果。基于此，本文在实现阶段采用语义触发型行为调度机制，保证表达服务于理解。
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figure/museguide/embodied-dimension.png}
+    \caption{Embodied Guidance 维度：多角色与多模态协同表达（来源：MuseGuide 开题材料）}
+    \label{fig-embodied-dim}
+\end{figure}
+
+\section{基于 CCEG 的设计目标与范式}
+在前述要素基础上，本文将 CCEG 的总体目标界定为：在博物馆导览场景中实现“可持续对话、可解释情境、可感知引导”的一体化学习支持。具体而言，系统应当在回答准确性之外，进一步提升学习连贯性、探索主动性与重点识别效率。该目标不是单一维度优化可以完成的，必须通过对话层、情境层和表达层协同达成。
+
+为保障目标可落地，本文提出三条范式性原则。第一，学习任务优先原则，即系统响应必须优先满足学习推进而非形式完整。第二，状态驱动原则，即导览策略由实时情境状态触发，而非预设脚本单向执行。第三，语义一致原则，即所有多模态表达必须可追溯到语义目标，避免“表现先于内容”的设计偏差。
+
+上述范式使 CCEG 从理论概念转化为可执行设计框架，也为第四章系统设计提供了明确方法边界。
+
+\section{本章小结}
+本章围绕 CCEG 框架完成了从提出背景到要素分析、再到设计范式的系统论述。研究表明，面向博物馆学习场景的数字人导览系统需要在对话组织、情境理解和具身引导之间建立结构化协同机制。CCEG 正是在这一需求下形成的中观设计框架，其价值在于把“技术能力”转化为“学习导向能力”。
+
+\section{框架映射到系统层的实现逻辑}
+CCEG 框架的价值不仅在于解释问题，更在于能够指导系统工程决策。本文将框架映射关系概括为“维度--模块--数据”三层对应。Conversation 维度映射为会话编排模块，其核心数据为意图标签、知识单元和响应结构；Context 维度映射为状态管理模块，其核心数据为用户状态、展区状态和会话摘要；Embodied Guidance 维度映射为表达调度模块，其核心数据为语义标签、行为参数和时间对齐信息。该映射使框架从抽象概念落到具体实现对象。
+
+在此基础上，系统可以对每一轮交互执行统一流程：先由 Conversation 生成候选语义结构，再由 Context 进行情境约束与策略修正，最后由 Embodied Guidance 生成可感知输出。三者按顺序协同，既保证回复的语义完整性，也保证导览行为的过程一致性。
+
+\section{框架有效性的理论论证}
+CCEG 的理论有效性可从三个角度论证。第一，从学习理论角度看，框架通过对话和情境机制引入支架式引导，符合博物馆学习中的建构性规律。第二，从交互理论角度看，框架通过上下文维护和策略调度实现多轮连续，能够降低碎片化交互带来的认知中断。第三，从感知理论角度看，框架通过语义一致的具身表达强化重点识别，符合多模态认知加工规律。
+
+这些论证说明 CCEG 并非针对单一技术栈的临时方案，而是具有跨平台可迁移潜力的方法框架。无论系统后续采用何种模型或驱动方式，只要保持三维协同原则，均可在该框架内获得方法支持。

@@ -1,188 +1,72 @@
 % !Mode:: "TeX:UTF-8"
-\chapter{环境配置}
+\chapter{相关概念阐述与理论基础}
 
-\section{C\TeX{}套装 [Windows Only]}
+\section{博物馆学习与导览概述}
 
-C\TeX{}套装是Windows下为中文优化的\LaTeX{}系统套件，主要基于MiKTeX系统，
-集成了编辑器WinEdt和其他相关软件。整个系统封装在一个安装程序中，
-安装方法与常规软件相同，无需任何配置，适合大部分Windows用户使用。
+\subsection{博物馆学习的界定与导览的情境化支持角色}
+博物馆语境下的学习通常被视为一种发生在真实情境中的意义建构过程，而非课堂式的单向知识接收。参观者并不是“等待被灌输的信息容器”，其已有经验、兴趣动机与当下的注意分配会持续参与到理解的形成之中\cite{falk2016,li2024}。更重要的是，博物馆体验具有显著的时间延展性：体验与学习并非仅在展厅内瞬时发生，而是从参观前就已开始，并在离馆后仍会继续发酵与回响\cite{falk2016}。这意味着，博物馆导览的目标不应被简化为传递展品信息，而应理解为在参观过程中提供一种可持续的、情境化的学习支持（support/scaffolding）：在非线性路径与动态兴趣驱动的参观情境中，导览需要帮助参观者维持注意、形成问题、组织信息并完成意义确认，从而在复杂的参观体验中建立相对稳定的理解脉络。由此，导览系统的设计目标可进一步操作化为：在何时、围绕何物、以何种讲解粒度与表达方式提供支撑。
 
-\begin{description}
-    \item[下载地址] \hfill
-    \begin{description}
-        \item[官方页面]
-            \url{http://www.ctex.org/CTeXDownload}
-        \item[清华镜像]
-            \url{https://mirrors.tuna.tsinghua.edu.cn/ctex/unstable/}
-        \item[中科大镜像]
-            \url{http://mirrors.ustc.edu.cn/ctex/unstable/}
-    \end{description}
-    \item[安装方法] \hfill
-        \begin{itemize}
-            \item[] 与常规软件的安装方法类似
-            \item[] 一直下一步稍加一些自定义（如安装路径）即可
-            \item[] {\bf 注意：} 安装程序在某些情况下可能覆盖PATH环境变量，请在安装前注意备份PATH环境变量
-        \end{itemize}
-\end{description}
+从学习过程角度看，博物馆学习往往表现为一个循环推进的过程：参观者被展陈线索触发注意并产生好奇，进而形成问题；随后在探索与比较中整合信息、修正理解，最终完成对展品意义的确认与内化，并可能进一步激发新的问题与探索动机。这种循环过程决定了导览支持的关键不在于一次性讲解“是什么”，而在于在不同阶段提供与之匹配的支架：在注意触发阶段降低进入门槛、建立初步框架；在问题形成与信息整合阶段提供分层解释与可选追问以推进理解；在意义确认阶段通过总结与关联帮助参观者回扣主题、形成更稳固的认知结构。由于参观者的学习节奏、理解深度与关注点存在显著差异，导览支持需要具备“随情境变化而调整”的能力，以避免信息过载、主题跳转造成的理解断裂等问题。
 
-\section{\TeX{}Live [ Windows \& Linux ]}
+\subsection{情境学习框架：三类情境维度与时间维度}
+为刻画博物馆学习在真实场景中的发生机制，Falk 与 Dierking 提出情境学习框架，强调博物馆体验由参观者持续建构，其形成过程受到个人情境（personal context）、社会文化情境（sociocultural context）与物理情境（physical context）的共同作用，并需要在时间维度上进行整体把握\cite{falk2016}。其中，个人情境涵盖参观者的既有知识、兴趣动机与身份经验；社会文化情境涉及同伴互动、沟通规范以及博物馆作为社会文化机构所提供的解释框架；物理情境则包含展馆空间、展品布置、标签文本与媒体呈现等具体环境线索\cite{falk2016,luo2024}。该框架进一步指出，这些情境维度在真实体验中并非可被完全剥离的独立因素，对其进行分解更多是出于分析便利；同时，博物馆体验作为复杂系统只能被部分理解与部分控制\cite{falk2016}。
 
-\TeX{}是自由软件，有很多发行版本，就像Linux的Ubuntu、Fedora等等。
-每个发行版本都是一套工具集合，包括plain\TeX{}，\LaTeX{}，pdf\TeX{}，dvips等。
-其中比较流行的是\TeX{}Live，也包含在CTAN的开源镜像中。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.90\textwidth]{figure/figs/Contextual Model of Learning.png}
+    \caption{Contextual Model of Learning 示意图（Falk 和 Dierking，2016）}
+    \label{fig-contextual-model-learning}
+\end{figure}
 
-推荐通过下载ISO镜像文件的方式安装：
-\begin{description}
-    \item[官方说明]
-        \url{http://www.tug.org/texlive/acquire-iso.html}
-    \item[下载地址] 官方地址会自动跳转寻找"最近"镜像，还有几个较快的教育网镜像
-    \begin{description}
-        \item[官方地址]
-            \url{http://mirror.ctan.org/systems/texlive/Images/texlive2016.iso}
-        \item[清华镜像]
-            \url{http://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/}
-        \item[中科大镜像]
-            \url{https://mirrors.ustc.edu.cn/CTAN/systems/texlive/Images/}
-    \end{description}
-    \item[安装方法] \hfill
-    \begin{enumerate}
-        \item 通过虚拟光驱挂载镜像也可以直接打开或解压缩不过会比较慢
-        \item 双击运行光盘镜像或者运行脚本
-        \item[] Windows 用户可以直接双击运行\textsl{install-tl.bat}
-        \item[] Linux 用户可以在终端下执行命令\textsl{./install-tl}
-        \item 按照提示下一步即可，安装大致耗时10$\sim$20分钟，受机器配置影响。
-    \end{enumerate}
-\end{description}
+上述观点为导览系统的研究目标提供了重要边界：导览并不应以“控制学习结果”为目标，而应在复杂情境系统中识别并把握可干预的支撑点，通过对情境的持续感知与适配性回应，提高高质量学习互动发生的可能性。尤其在博物馆参观具有非线性动线、兴趣驱动探索与随时间演化的理解过程时，“情境”不再只是背景信息，而成为导览策略选择与交互组织的基础条件。
 
-当然官方也提供了通过网络安装的方式，虽然通过可以通过镜像选择达到比较快的速度，
-但是这里简便期间不再赘述，有兴趣的同学可以参考官方说明
-\url{http://www.tug.org/texlive/acquire-netinstall.html}。
+\subsection{本文的 Context 定义：基于 Contextual Model 的三类情境映射}
+基于 Falk 与 Dierking 的情境学习框架，博物馆体验可被理解为个人情境（personal）、社会文化情境（sociocultural）与物理情境（physical）在时间维度上的动态交互过程\cite{falk2016}。为使该理论框架能够在数字导览系统中被操作化，本文将其映射为系统可维护的三类 Context 要素：对话记忆（personal）、交互语域与形象表达（sociocultural）、以及空间—展品知识情境（physical + time）。该映射并非对情境学习框架的完整复现，而是面向导览系统“可观测、可维护、可用于决策”的工程化定义，用于支撑后续对话组织与引导策略的动态选择。本文映射聚焦于导览系统可观测、可维护且可用于策略决策的情境切片，不覆盖同伴协作、群体参观等更广义的社会互动变量。
 
-\section{Mac\TeX{} [ Mac ]}
+（1）personal：对话记忆（dialogue memory）。本文将个人情境具体化为导览对话过程中沉淀的“记忆”与“偏好”结构，包括：对话历史（history）中已解释内容、已提出问题与用户反馈；当前对话上下文（context）中正在讨论的主题与待解释点；以及从连续互动中隐性显现的注意力倾向与兴趣偏好（例如对某类主题的持续追问、对某类解释粒度的偏好）。该维度用于回答“用户已经知道什么、正在关注什么、可能更愿意沿着哪条线索继续探索”等关键问题，从而避免重复讲解与无效引导。
 
-Mac\TeX{}是基于\TeX{}Live为Mac系统设计的套件。
+（2）sociocultural：面向用户的形象、语气与用语（interaction register）。本文将社会文化情境操作化为数字导览者在互动中所采用的表达语域与身份呈现方式，包括称呼体系、礼貌策略、语气风格、用词偏好与整体“角色形象”。这一维度用于保证导览对话在社会互动层面保持一致性与可接受性：同样的知识内容在不同语域下会触发不同的心理距离与参与意愿，而稳定的交互语域能够降低沟通摩擦、提升持续对话的可能性，从而为学习支持提供可靠的交互载体。
 
-\begin{description}
-    \item[官方网站]
-        \url{http://tug.org/mactex/}
-    \item[下载地址] 官方地址会自动跳转寻找"最近"镜像，还有几个较快的教育网镜像
-    \begin{description}
-        \item[官方地址]
-            \url{http://mirror.ctan.org/systems/mac/mactex/MacTeX.pkg}
-        \item[清华镜像]
-            \url{http://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/mac/mactex/}
-        \item[中科大镜像]
-            \url{https://mirrors.ustc.edu.cn/CTAN/systems/mac/mactex/}
-    \end{description}
-    \item[安装方法] 同一般软件安装，下一步即可
-\end{description}
+（3）physical + time：展馆空间位置理解与展品知识先验（spatial--exhibit context）。本文将物理情境与时间维度共同操作化为空间—展品状态，包括参观者所处的展馆位置与展区/展品对象、空间邻接关系与可能动线，以及与当前位置相关联的展品知识先验（如展品基础信息、展签要点、可展开的背景知识与关联展品线索）。时间维度在本文中主要体现为导览进程的阶段性与连续性：随着参观推进，系统需要能够识别“当前处于导览的哪个阶段、已经覆盖哪些展品/主题、下一步可能的引导方向”，以支持在非线性探索中维持叙事与理解的连贯。
 
-\section{兼容性}
+综上，本文所称的 Context 是面向博物馆导览学习支持的三类情境要素集合：以对话记忆刻画个人侧的连续状态，以语域与形象表达刻画社会互动规范，以空间位置与展品知识先验刻画物理环境与进程连续性。落地到系统状态口径时，可对应为：对话记忆≈会话状态+用户偏好摘要，语域与形象表达≈用户状态中的交互规范/人格化参数，空间与展品先验≈展品状态+位置/阶段（time）状态。该定义为后续章节的框架构建提供了明确的“可维护状态”边界：系统将基于上述 Context 的更新来组织对话内容、调节讲解粒度与节奏，并选择合适的引导方式，从而实现情境化的学习支持。
 
-本模板依赖v2.0及以上版本的ctex包，\TeX{}Live 2015及以上版本、C\TeX{}2.9.3 可以正常使用。
-对于低版本的\LaTeX{}发行版，需要使用包管理器升级ctex宏包。
+\section{对话式导览交互概述}
 
-\section{安装字体 [ Linux ]}
+\subsection{对话式交互的机制特征：分层解释、追问链与交互节奏}
+在交互设计语境下，博物馆对话导览更应被界定为一种“过程性引导范式”，而非单一问答功能。其核心任务是把参观者的即时提问转化为可持续推进的理解过程，并在“内容组织、问题推进、参与维持”三个层面形成协同。基于既有博物馆与文化遗产场景研究，本文将该范式抽象为三个可设计维度：分层解释、追问链与交互节奏。
 
-北航的毕业设计论文要求使用Times New Roman和华文行楷这两种字体，在Linux系统上，这两种字
-是没有预装在系统里的，因此Linux用户需要手动安装字体才能正常使用本模板。本节将以Ubuntu系统
-为例演示字体的安装。
+（1）分层解释（progressive disclosure）对应“内容组织范式”，关注系统如何在不同理解阶段调节信息粒度。其设计重点不是信息量大小，而是解释结构是否具备可进入性与可展开性，即先提供问题定位所需的框架，再开放细节追问与关联扩展。在虚拟博物馆具身化对比实验中，拟人化导览员与“会说话的展品”在背景解释与细节追问上呈现出互补分工，说明分层解释可以与角色分工和具身形态共同构成交互架构\cite{lopezgarcia2024}。MR 全息导览研究也表明，用户对“易懂且有益”的解释具有稳定期待，进一步支持将“低门槛入口”设为分层解释的首要交互目标\cite{hammady2021}。
 
-首先需要获取字体文件，Windows系统默认包含了Times New Roman和华文行楷这两种字体，可以从
-\verb|C:\Windows\Fonts\|文件夹下将字体文件拷贝出来（显示为\verb|STXingkai|和
-\verb|Times New Roman|），当然，用户也可以从其他途径获取这两个字体文件。然后将字体文件
-拷贝到Ubuntu的\verb|/usr/share/fonts|目录下，为了方便管理，可以在这些外部字体放在一个新
-文件夹中：
-\begin{lstlisting}[
-    language={bash},
-    caption={拷贝字体文件},
-    label={copy-fonts},
-]
-sudo cp <your font files> /usr/share/fonts/msfonts/
-\end{lstlisting}
-然后将字体文件的权限设置为644：
-\begin{lstlisting}[
-    language={bash},
-    caption={设置字体文件权限},
-    label={set-fonts-permission},
-]
-sudo chmod 644 /usr/share/fonts/msfonts/*
-\end{lstlisting}
-接下来，进入到{\verb /usr/share/fonts/msfonts } 目录下，依次运行以下三个命令：
-\begin{lstlisting}[
-    language={bash},
-    caption={安装字体},
-    label={install-fonts},
-]
-sudo mkfontscale
-sudo mkfontdir
-sudo fc-cache -fv
-\end{lstlisting}
-当看到命令行输出
-\begin{lstlisting}[
-    language={bash},
-    caption={正常输出结果},
-    label={install-font-success},
-]
-fc-cache: succeeded
-\end{lstlisting}
-时，就完成了字体的安装。
+（2）追问链（inquiry chain）对应“问题推进范式”，关注多轮对话如何保持主题连续、语义递进与目标一致。对话导览的有效性不在于回答次数，而在于能否将单点问答组织为可累积的探索路径，使用户由事实检索逐步过渡到关系理解。多聊天机器人与多知识图谱协同研究表明，跨主题协作机制可提升追问过程中的覆盖度与一致性，为追问链的扩展性实现提供了技术路径\cite{varitimiadis2021}。在虚拟博物馆导航与推荐场景中，系统依据互动历史动态调整导览路线，且用户对推荐缘由解释有强需求，这说明追问链本质上是“问题推进+路径组织+可解释反馈”的复合交互结构\cite{tsitseklis2023}。
 
-\section{关于编辑器}
+（3）交互节奏（interaction pacing）对应“参与调度范式”，关注系统如何通过回应长度、提示时机、提问方式与轮次密度管理认知负荷与参与强度。相关研究显示，封闭式问题与情境化线索能显著提高口头回应与现场互动质量，说明节奏控制是影响参与行为的核心设计变量\cite{gasteiger2021}。同时，具身化呈现与历史重演式语言风格会改变停留、注视与情感投入，表明节奏并非时间参数的机械控制，而是由语言风格、具身表达与互动时机共同构成的体验调度机制\cite{noh2021}。
 
-以上介绍了三款\LaTeX{}套装，涵盖了主流的三大平台，除了C\TeX{}自带了WinEdt，
-其余两款均需要自己选择编辑器，理论上任何文本编辑器都是可以使用的，
-如Windows上的 vscode，Linux/MacOS上的vim，emacs，
-一方面要考虑对\LaTeX{}的支持，一方面还是自己的熟悉程度。
+综上，对话式导览可被归纳为一种由“内容组织范式（分层解释）—问题推进范式（追问链）—参与调度范式（交互节奏）”构成的交互范式系统。该系统决定了导览是否能够从工具型问答转化为具备学习引导能力的交互过程。
 
-这里推荐一款大众化的编辑器\TeX{}maker，它是跨平台的，支持Windows、Linux和MacOS。
+\subsection{对话式交互的优势与局限}
+从交互范式角度看，对话导览的优势并不止于“能回答问题”，而在于其能够将用户输入、系统解释与下一步行动组织为连续的互动回路。首先，自然语言入口降低了信息获取门槛，使参观者可直接提出个性化问题，减少菜单式检索带来的操作负担；实地部署研究显示，该机制可提升信息获取便捷性与整体满意度\cite{duguleana2020}。其次，对话机制与具身表达结合后，可显著增强参与主动性与在场体验：具身化与历史重演式语言策略能够提升情感参与和认知价值，并影响停留与注视等行为指标\cite{noh2021}。进一步地，人设化聊天机器人研究表明，语言风格与角色身份会影响用户对互动性、趣味性与记忆保持的感知，说明“交互关系设计”本身是导览价值的重要来源\cite{sovic2025,suicmez2025}。MR 全息导览的结果也支持这一结论，即导览者角色通过影响感知有用性与互动性，进而影响持续使用意图\cite{hammady2021}。
 
-\begin{description}
-    \item[官方网站]
-        \url{http://www.xm1math.net/texmaker/}
-    \item[下载地址]
-        \url{http://www.xm1math.net/texmaker/download.html}
-    \item[相关说明]
-    \begin{itemize}
-        \item 安装同一般软件的安装
-        \item 配置Xe\LaTeX{}的编译，选择菜单栏“选项”->“配置\TeX{}Maker”，
-        \item[] 在“\LaTeX{}”一栏填写
-            \texttt{xelatex -interaction=nonstopmode\%.tex}
-    \end{itemize}
-\end{description}
+与此同时，对话导览的局限也可被理解为交互范式的边界条件。第一，若系统缺乏稳定的情境状态维护，对话容易出现对象错位、阶段错配与主题漂移，导致追问链在低收益路径上消耗交互资源。相关研究提出“关键帮助（critical help）”策略，通过混合主动性重构用户请求并对齐策展目标，能够提升导览质量与个性化评价，说明范式有效运行依赖明确的目标约束机制\cite{cantucci2022}。第二，个性化推荐与生成式回答虽然提高了流畅性，但也引入可信度与可解释性风险；用户对推荐理由与证据线索的持续需求表明，系统必须提供可核验的解释接口，而非仅输出看似合理的答案\cite{tsitseklis2023}。
 
-\section{关于编译}
+因此，对话式导览在交互设计上的核心结论是：Conversation 只能提供交互入口与推进机制，不能单独构成完整范式；其有效性依赖 Context 的持续维护、目标约束与解释反馈。后文第三章将以此为前提，展开 Conversation--Context 耦合关系的结构化分析，并进一步推导 CCEG 的设计要素。
 
-\LaTeX{}的文件是通过编译生成的，对于本模板和毕业设计论文而言，
-需要经过代码\ref{code-compile}所示步骤（以sample-bachelor.tex为例）：
-\begin{lstlisting}[
-    language={bash},
-    caption={编译步骤},
-    label={code-compile},
-]
-xelatex sample-bachelor.tex
-bibtex  sample-bachelor.aux
-xelatex sample-bachelor.tex
-xelatex sample-bachelor.tex
-\end{lstlisting}
-当然，我们在模板里也提供了编译的执行脚本。
+\section{具身数字人赋能下的博物馆对话式导览}
 
-\subsection{批处理 [ Windows only ]}
+\subsection{具身数字人展示的概念边界}
+为避免概念泛化，本文将“具身数字人展示”限定为：在博物馆导览任务中，以可感知的人物化代理为交互主体，通过语言、语音与非语言行为协同表达导览意图，并与用户形成连续会话关系的展示形态。该定义包含四个边界条件：一是主体具有人格化身份与稳定角色设定；二是行为表达服务于导览任务而非纯视觉表演；三是交互过程具备上下文连续性；四是输出目标指向学习理解与路径引导，而非单次问答完成。
 
-进入cmd（Win+R，然后输入cmd），cd到BUAAthesis对应目录，
-如\verb|D:\BUAAthesis\|，然后运行\verb|msmake|即可。
+在该边界下，具身数字人不等同于“会说话的虚拟形象”，其价值不在外观拟真程度，而在于是否能够将知识组织、情境判断与表达策略联动起来。该定义同时构成本文后续系统设计与效果评估的判定基准。
 
-\subsection{Makefile [ Windows(cygwin) / Linux / MacOS ]}
-需要要你的命令行环境支持Make，cd到BUAAthesis相应目录，
-目前支持如代码\ref{code-make}所示的功能:
-\begin{lstlisting}[
-    language={bash},
-    caption={make 命令},
-    label={code-make},
-]
-make bachelor # 编译本科生的\LaTeX{}（文件默认项，亦可直接输入make）
-make master # 编译研究生的\LaTeX{}文件
-make kaitireport # 编译本科生/研究生的开题报告/文献综述的\LaTeX{}文件
-make clean # 删除编译过程中生成的文件（除了pdf）
-make depclean # 删除编译过程中生成的文件（包括pdf）
-\end{lstlisting}
+\subsection{展示形式分类与适用性}
+结合博物馆应用场景，具身数字人展示可划分为三类形式。第一类是屏幕化导览代理，部署成本低、运维稳定，适用于常设展与高频问答场景；第二类是空间投影/沉浸式代理，强调在场感与叙事氛围，适用于主题展与体验式教育活动；第三类是移动终端或混合现实代理，强调位置感知与路径陪伴，适用于跨展区连续导览与个性化路线推荐\cite{olaz2022,okanovic2022,chin2023}。
+
+不同形式在可达性、交互深度与内容承载方式上各有优势。屏幕化形式便于规模化部署但空间联动较弱；沉浸式形式表达力强但实施成本较高；移动/MR 形式情境适配强但对设备与网络条件要求更高。因此，形式选择应由导览目标、展陈条件与用户群体共同决定，而非单纯追求技术新颖度。
+
+\subsection{与对话组织和情境维持的协同逻辑}
+具身数字人的核心价值在于与对话组织、情境维持形成协同闭环：对话机制负责知识展开与问题推进，情境机制负责状态更新与路径约束，具身机制负责将引导意图转化为可感知的表达线索。三者协同后，系统才能在“说什么、何时说、如何被感知”三个层面保持一致，避免出现内容正确但引导弱化的情况。
+
+这一协同逻辑直接对应 CCEG 框架的内部结构，也是本文后续章节展开的主线：第三章将从结构层明确三维关系与设计要素；第四章将把协同逻辑转化为可执行的设计方案；第五章将在 MuseGuide 中实现并验证该逻辑的工程可行性。
+
+\section{本章小结}
+本章围绕博物馆学习与导览、对话式交互机制、具身数字人赋能三条主线完成理论基础梳理。通过概念边界界定与机制分析可以确认：面向博物馆学习的数字人导览系统必须同时具备分层对话组织、持续情境维持与具身表达协同能力。该结论为第三章的 CCEG 框架分析提供了直接理论支撑。

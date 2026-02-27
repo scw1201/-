@@ -36,7 +36,7 @@ The LaTeX template for thesis of BUAA]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 \ProcessOptions\relax
 % 引用ctexbook及基本设置
-\LoadClass[zihao=-4,a4paper]{ctexbook}[2007/10/19]
+\LoadClass[zihao=-4,a4paper,fontset=none]{ctexbook}[2007/10/19]
 
 %%%%%%%%%% global package %%%%%%%%%%
 % 全局通用宏包
@@ -55,9 +55,11 @@ The LaTeX template for thesis of BUAA]
 % adjust the line break when necessary.
 \RequirePackage{hyphenat}
 
-% 主要字体为Times New Roman和宋体
-% 模板某些标题需要华文行楷和32号字
-\setmainfont{Times New Roman}
+% 主要字体为 Times New Roman 和宋体
+% 模板某些标题需要行楷和楷体；新 macOS 可能不再内置旧字体名，做兼容回退
+\IfFontExistsTF{Times New Roman}
+    {\setmainfont{Times New Roman}}
+    {\setmainfont{TeX Gyre Termes}}
 % 不需要设置CJKmainfont，ctex 宏包已经很好的处理了
 % 不仅设置了粗体为黑体，斜体为楷体，还兼容了winfonts和adobefonts
 % 直接设置反而会在只有adobefonts的情况下报错
@@ -66,10 +68,38 @@ The LaTeX template for thesis of BUAA]
 % 华文行楷、华文楷体同上
 \let\songti\relax
 \let\heiti\relax
-\setCJKfamilyfont{songti}[AutoFakeBold = {2.17}]{SimSun}
-\setCJKfamilyfont{heiti}[AutoFakeBold = {2.17}]{SimHei}
-\setCJKfamilyfont{hwxingkai}[AutoFakeBold = {2.17}]{STXingkai}
-\setCJKfamilyfont{hwkaiti}[AutoFakeBold = {2.17}]{STKaiti}
+\IfFontExistsTF{Songti SC}
+    {\setCJKmainfont[AutoFakeBold = {2.17}]{Songti SC}}
+    {\IfFontExistsTF{STSong}
+        {\setCJKmainfont[AutoFakeBold = {2.17}]{STSong}}
+        {\setCJKmainfont[AutoFakeBold = {2.17}]{SimSun}}}
+\IfFontExistsTF{Heiti SC}
+    {\setCJKsansfont[AutoFakeBold = {2.17}]{Heiti SC}}
+    {\IfFontExistsTF{STHeiti}
+        {\setCJKsansfont[AutoFakeBold = {2.17}]{STHeiti}}
+        {\setCJKsansfont[AutoFakeBold = {2.17}]{SimHei}}}
+\IfFontExistsTF{Songti SC}
+    {\setCJKfamilyfont{songti}[AutoFakeBold = {2.17}]{Songti SC}}
+    {\IfFontExistsTF{STSong}
+        {\setCJKfamilyfont{songti}[AutoFakeBold = {2.17}]{STSong}}
+        {\setCJKfamilyfont{songti}[AutoFakeBold = {2.17}]{SimSun}}}
+\IfFontExistsTF{Heiti SC}
+    {\setCJKfamilyfont{heiti}[AutoFakeBold = {2.17}]{Heiti SC}}
+    {\IfFontExistsTF{STHeiti}
+        {\setCJKfamilyfont{heiti}[AutoFakeBold = {2.17}]{STHeiti}}
+        {\setCJKfamilyfont{heiti}[AutoFakeBold = {2.17}]{SimHei}}}
+\IfFontExistsTF{Kaiti SC}
+    {\setCJKfamilyfont{hwxingkai}[AutoFakeBold = {2.17}]{Kaiti SC}}
+    {\setCJKfamilyfont{hwxingkai}[AutoFakeBold = {2.17}]{Songti SC}}
+\IfFontExistsTF{Kaiti SC}
+    {\setCJKfamilyfont{hwkaiti}[AutoFakeBold = {2.17}]{Kaiti SC}}
+    {\setCJKfamilyfont{hwkaiti}[AutoFakeBold = {2.17}]{Songti SC}}
+\IfFontExistsTF{Kaiti SC}
+    {\setCJKfamilyfont{kai}[AutoFakeBold = {2.17}]{Kaiti SC}}
+    {\setCJKfamilyfont{kai}[AutoFakeBold = {2.17}]{Songti SC}}
+\IfFontExistsTF{Kaiti SC}
+    {\setCJKfamilyfont{zhkai}[AutoFakeBold = {2.17}]{Kaiti SC}}
+    {\setCJKfamilyfont{zhkai}[AutoFakeBold = {2.17}]{Songti SC}}
 \newcommand{\songti}{\CJKfamily{songti}}
 \newcommand{\heiti}{\CJKfamily{heiti}}
 \newcommand{\hwxingkai}{\CJKfamily{hwxingkai}}
@@ -104,14 +134,14 @@ The LaTeX template for thesis of BUAA]
 \RequirePackage{geometry}
 \newgeometry{
     top=30mm, bottom=25mm, left=30mm, right=20mm,
-    headsep=5mm, includefoot
+    headsep=5mm, headheight=15mm, includefoot
 }
 \savegeometry{bachelorgeometry}
 
 % geometry for tasks pages for bachelor thesis, see also #270
 \newgeometry{
     top=30mm, bottom=25mm, left=30mm, right=20mm,
-    headsep=5mm
+    headsep=5mm, headheight=15mm
 }
 \savegeometry{bachelortaskgeometry}
 
